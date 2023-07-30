@@ -7,6 +7,8 @@ import { ChannelSchedule, TVSchedule } from "./modules/tv/domain/tvSchedule";
 import ChannelDetails from "./components/ChannelDetails";
 import { tvScheduleRepository } from "./modules/tv/repositories/tvScheduleRepository";
 
+const ICONS_DIRECTORY = "/tmp/raycast/spanish-tv-guide/icons"
+
 const Command = () => {
   const [tvSchedule, setTvSchedule] = useState<TVSchedule>([]);
   const [isShowingDetail, setIsShowingDetail] = useState(false);
@@ -40,7 +42,7 @@ const renderChannel = ({ icon, name, schedule }: ChannelSchedule) => {
 
 const generateIcons = (tvSchedule: TVSchedule) => Promise.all(tvSchedule.map(({ icon }) => generateIcon(icon)));
 const generateIcon = (icon: string) => Jimp.read(icon).then((image) => image.contain(256, 256).write(iconPath(icon)));
-const iconPath = (icon: string) => `/tmp/icons/${iconName(icon)}`;
+const iconPath = (icon: string) => `${ICONS_DIRECTORY}/${iconName(icon)}`;
 const iconName = (icon: string) => icon.substring(icon.lastIndexOf("/") + 1);
 
 export default Command;
