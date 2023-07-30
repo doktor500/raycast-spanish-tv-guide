@@ -21,6 +21,7 @@
     "@raycast/api": "^1.52.1",
     "friendly-truncate": "^1.1.0",
     "isomorphic-fetch": "^3.0.0",
+    "jimp": "^0.22.10",
     "lodash": "^4.17.21",
     "luxon": "^3.3.0"
   },
