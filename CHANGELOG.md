@@ -1,7 +1,8 @@
 # spanish-tv-guide Changelog
 
-## [Set live stream icon] - 2023-10-03
-- Display a live stream icon for the program that is currently live
+## [Live stream icon & error handling] - 2023-10-03
+- Display a live stream icon for the program that is currently broadcasted
+- Implemented a more user friendly error handling
 
 ## [Wait for loaded icons] - 2023-10-02
 - Fixed issue rendering detail view before icons were loaded
