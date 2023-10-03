@@ -1,11 +1,11 @@
 import { List } from "@raycast/api";
 import { useEffect, useState } from "react";
 import Jimp from "jimp";
-import { isEmpty, isNull } from "lodash";
 
 import { ChannelSchedule, TVSchedule } from "./modules/tv/domain/tvSchedule";
 import ChannelDetails from "./components/ChannelDetails";
 import { tvScheduleRepository } from "./modules/tv/repositories/tvScheduleRepository";
+import { isEmpty, isNull } from "./utils/objectUtils";
 
 const ICONS_DIRECTORY = "/tmp/raycast/spanish-tv-guide/icons";
 
