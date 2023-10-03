@@ -2,18 +2,19 @@ import { showToast, Toast } from "@raycast/api";
 import React, { useEffect, useReducer } from "react";
 import Jimp from "jimp";
 
-import { TVSchedule } from "./modules/tv/domain/tvSchedule";
+import { ChannelSchedule, TVSchedule } from "./modules/tv/domain/tvSchedule";
 import { tvScheduleRepository } from "./modules/tv/repositories/tvScheduleRepository";
-import ErrorMessage from "./views/ErrorMessage";
-import { AllChannels } from "./views/AllChannelsView";
+import { ErrorMessage } from "./views/ErrorMessage";
+import { AllChannels } from "./views/AllChannels";
+import { SelectedChannel } from "./views/SelectedChannel";
 
 export type State = {
   tvSchedule: TVSchedule;
   isShowingDetail: boolean;
   iconsLoaded: boolean;
-  error?: Error;
   hoveredChannel?: string;
-  selectedChannel?: string;
+  selectedChannel?: ChannelSchedule;
+  error?: Error;
 };
 
 const ICONS_DIRECTORY = "/tmp/raycast/spanish-tv-guide/icons";
@@ -25,7 +26,7 @@ const reducer = (state: State, newState: Partial<State>) => ({ ...state, ...newS
 
 const Command = () => {
   const [state, setState] = useReducer(reducer, initialState);
-  const { tvSchedule, error } = state;
+  const { tvSchedule, selectedChannel, error } = state;
   const initialize = () => tvScheduleRepository.getAll().then((tvSchedule) => setState({ tvSchedule }));
 
   useEffect(() => void initialize().catch((error) => setState({ error })), []);
@@ -33,6 +34,7 @@ const Command = () => {
   useEffect(() => error && void showToast({ style: Toast.Style.Failure, title: ERROR_MESSAGE }), [error]);
 
   if (error) return <ErrorMessage />;
+  if (selectedChannel) return <SelectedChannel channel={selectedChannel} />;
   return <AllChannels state={state} setState={setState} />;
 };
 

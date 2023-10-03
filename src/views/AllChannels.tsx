@@ -17,6 +17,7 @@ export const AllChannels = ({ state, setState }: { state: State; setState: React
 
   const renderChannel = ({ icon, name, schedule }: ChannelSchedule) => {
     const detail = <ChannelDetails name={name} schedule={schedule} icon={icon} />;
+    const selectedChannel = tvSchedule.find((channel) => channel.name === name);
     return (
       <List.Item
         key={name}
@@ -25,7 +26,7 @@ export const AllChannels = ({ state, setState }: { state: State; setState: React
         icon={iconPath(icon)}
         actions={
           <ActionPanel>
-            <Action title={SELECT_CHANNEL_ACTION} onAction={() => setState({ selectedChannel: name })} />
+            <Action title={SELECT_CHANNEL_ACTION} onAction={() => setState({ selectedChannel })} />
           </ActionPanel>
         }
       />
