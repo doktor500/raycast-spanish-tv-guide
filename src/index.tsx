@@ -1,5 +1,5 @@
 import { List, showToast, Toast } from "@raycast/api";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import Jimp from "jimp";
 
 import { ChannelSchedule, TVSchedule } from "./modules/tv/domain/tvSchedule";
@@ -8,24 +8,33 @@ import { tvScheduleRepository } from "./modules/tv/repositories/tvScheduleReposi
 import { isEmpty, isNull } from "./utils/objectUtils";
 import ErrorMessage from "./components/ErrorMessage";
 
+type State = {
+  tvSchedule: TVSchedule;
+  isShowingDetail: boolean;
+  iconsLoaded: boolean;
+  error?: Error;
+  hoveredChannel?: string;
+};
+
 const ICONS_DIRECTORY = "/tmp/raycast/spanish-tv-guide/icons";
 export const ERROR_MESSAGE = "Error fetching TV guide";
 
-const Command = () => {
-  const [tvSchedule, setTvSchedule] = useState<TVSchedule>([]);
-  const [isShowingDetail, setIsShowingDetail] = useState(false);
-  const [iconsLoaded, setIconsLoaded] = useState(false);
-  const [error, setError] = useState<Error | undefined>();
-  const [selectedChannel, setSelectedChannel] = useState<string | undefined>();
+const initialState: State = { tvSchedule: [], isShowingDetail: false, iconsLoaded: false };
+const reducer = (state: State, newState: Partial<State>) => ({ ...state, ...newState });
 
-  useEffect(() => void tvScheduleRepository.getAll().then(setTvSchedule).catch(setError), []);
-  useEffect(() => void generateIcons(tvSchedule).then(() => setIconsLoaded(true)), [tvSchedule]);
+const Command = () => {
+  const [state, setState] = useReducer(reducer, initialState);
+  const { tvSchedule, isShowingDetail, iconsLoaded, error, hoveredChannel } = state;
+  const initialize = () => tvScheduleRepository.getAll().then((tvSchedule) => setState({ tvSchedule }));
+
+  useEffect(() => void initialize().catch((error) => setState({ error })), []);
+  useEffect(() => void generateIcons(tvSchedule).then(() => setState({ iconsLoaded: true })), [tvSchedule]);
   useEffect(() => error && void showToast({ style: Toast.Style.Failure, title: ERROR_MESSAGE }), [error]);
 
   const selectChannel = (channel: string | null) => {
     const channelSelected = !isNull(channel);
-    if (channelSelected) setSelectedChannel(channel);
-    setIsShowingDetail(channelSelected);
+    if (channelSelected) setState({ hoveredChannel: channel });
+    setState({ isShowingDetail: channelSelected });
   };
 
   if (error) return <ErrorMessage />;
@@ -33,7 +42,7 @@ const Command = () => {
   return (
     <List
       isLoading={isEmpty(tvSchedule) || !iconsLoaded}
-      selectedItemId={selectedChannel}
+      selectedItemId={hoveredChannel}
       isShowingDetail={isShowingDetail}
       onSelectionChange={selectChannel}
     >
