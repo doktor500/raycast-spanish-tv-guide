@@ -6,6 +6,7 @@ import { truncate } from "../../../utils/stringUtils";
 import { ProgramResponse } from "./dto/programResponse";
 import { ChannelResponse } from "./dto/channelResponse";
 import { findLast, last, replace } from "../../../utils/collectionUtils";
+import { Maybe } from "../../../utils/objectUtils";
 
 const TV_GUIDE_URL = "https://www.movistarplus.es/programacion-tv?v=json";
 const ICON_URL = "https://www.movistarplus.es/recorte/m-NEO/canal";
@@ -34,7 +35,7 @@ const mapToSchedule = (programs: ProgramResponse[]) => {
   }, []);
 };
 
-const mapToProgram = (program: ProgramResponse, lastProgram: Program | undefined): Program => {
+const mapToProgram = (program: ProgramResponse, lastProgram: Maybe<Program>): Program => {
   const startTime = parseTime(program.HORA_INICIO);
   const fixedTime = lastProgram?.startTime && lastProgram.startTime > startTime ? plusOneDay(startTime) : startTime;
 

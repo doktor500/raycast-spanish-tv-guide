@@ -6,6 +6,7 @@ import fetch from "isomorphic-fetch";
 import { ChannelSchedule, Program } from "../modules/tv/domain/tvSchedule";
 import { toString } from "../utils/stringUtils";
 import { getTime } from "../utils/dateUtils";
+import { Maybe } from "../utils/objectUtils";
 
 type ProgramDetails = {
   title: string;
@@ -15,7 +16,7 @@ type ProgramDetails = {
 };
 
 export const SelectedProgram = ({ channel, program }: { channel: ChannelSchedule; program: Program }) => {
-  const [programDetails, setProgramDetails] = useState<ProgramDetails | undefined>();
+  const [programDetails, setProgramDetails] = useState<Maybe<ProgramDetails>>();
 
   useEffect(() => {
     void fetch(program.url)
