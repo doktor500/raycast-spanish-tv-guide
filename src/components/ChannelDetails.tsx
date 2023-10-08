@@ -13,16 +13,16 @@ export const ChannelDetails = (channel: ChannelSchedule) => (
         <Item.Detail.Metadata.Label title={`${channel.name}`} icon={channel.icon} />
         <Item.Detail.Metadata.Separator />
         {channel.schedule.map((program, index) => (
-          <Program program={program} index={index} />
+          <Program key={index} program={program} />
         ))}
       </Item.Detail.Metadata>
     }
   />
 );
 
-const Program = ({ program, index }: { program: Program; index: number }) => {
+const Program = ({ program }: { program: Program }) => {
   return (
-    <Fragment key={index}>
+    <Fragment>
       <Item.Detail.Metadata.Label
         title={program.description}
         icon={program.live ? Icon.Livestream : ""}

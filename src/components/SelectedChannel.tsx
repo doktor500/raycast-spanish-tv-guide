@@ -15,7 +15,7 @@ export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
       </List.Section>
       <List.Section key={`schedule-${channel.name}`}>
         {channel.schedule.map((program, index) => (
-          <Program program={program} index={index} />
+          <Program key={index} program={program} index={index} />
         ))}
       </List.Section>
     </List>
