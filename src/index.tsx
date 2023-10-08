@@ -3,8 +3,8 @@ import React, { useEffect, useReducer } from "react";
 
 import { TVSchedule } from "./modules/tv/domain/tvSchedule";
 import { tvScheduleRepository } from "./modules/tv/repositories/tvScheduleRepository";
-import { ERROR_MESSAGE, ErrorMessage } from "./views/ErrorMessage";
-import { AllChannels } from "./views/AllChannels";
+import { ERROR_MESSAGE, ErrorMessage } from "./components/ErrorMessage";
+import { ChannelList } from "./components/ChannelList";
 import { generateIcon } from "./utils/iconUtils";
 
 export type State = {
@@ -27,8 +27,7 @@ const Command = () => {
   useEffect(() => void generateIcons(tvSchedule).then(() => setState({ iconsLoaded: true })), [tvSchedule]);
   useEffect(() => error && void showToast({ style: Toast.Style.Failure, title: ERROR_MESSAGE }), [error]);
 
-  if (error) return <ErrorMessage />;
-  return <AllChannels state={state} setState={setState} />;
+  return error ? <ErrorMessage /> : <ChannelList state={state} setState={setState} />;
 };
 
 const generateIcons = (tvSchedule: TVSchedule) => Promise.all(tvSchedule.map(({ icon }) => generateIcon(icon)));

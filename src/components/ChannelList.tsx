@@ -3,14 +3,14 @@ import { Action, ActionPanel, List, useNavigation } from "@raycast/api";
 
 import { State } from "../index";
 import { ChannelSchedule } from "../modules/tv/domain/tvSchedule";
-import { ChannelDetails } from "../components/ChannelDetails";
+import { ChannelDetails } from "./ChannelDetails";
 import { SelectedChannel } from "./SelectedChannel";
 import { iconPath } from "../utils/iconUtils";
 import { isEmpty, isNull } from "../utils/objectUtils";
 
 const SELECT_CHANNEL_ACTION = "Select Channel";
 
-export const AllChannels = ({ state, setState }: { state: State; setState: React.Dispatch<Partial<State>> }) => {
+export const ChannelList = ({ state, setState }: { state: State; setState: React.Dispatch<Partial<State>> }) => {
   const { tvSchedule, iconsLoaded, hoveredChannel } = state;
   const isLoading = isEmpty(tvSchedule) || !iconsLoaded;
 
