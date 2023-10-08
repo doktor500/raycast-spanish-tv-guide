@@ -2,11 +2,11 @@ import React from "react";
 import { Action, ActionPanel, List, useNavigation } from "@raycast/api";
 
 import { State } from "../index";
-import { isEmpty, isNull } from "../utils/objectUtils";
 import { ChannelSchedule } from "../modules/tv/domain/tvSchedule";
-import ChannelDetails from "../components/ChannelDetails";
+import { ChannelDetails } from "../components/ChannelDetails";
 import { SelectedChannel } from "./SelectedChannel";
 import { iconPath } from "../utils/iconUtils";
+import { isEmpty, isNull } from "../utils/objectUtils";
 
 const SELECT_CHANNEL_ACTION = "Select Channel";
 
