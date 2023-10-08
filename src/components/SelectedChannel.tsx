@@ -9,10 +9,10 @@ import { SelectedProgram } from "./SelectedProgram";
 const SELECT_PROGRAM_ACTION = "Select Program";
 
 export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
-  const currentProgram = channel.schedule.findIndex((program) => program.live);
+  const currentProgram = channel.schedule.findIndex((program) => program.isCurrentlyLive);
   const previousProgram = Math.max(0, currentProgram - 2);
   const schedule = channel.schedule.slice(previousProgram, channel.schedule.length);
-  const selectedProgram = schedule.findIndex((program) => program.live);
+  const selectedProgram = schedule.findIndex((program) => program.isCurrentlyLive);
 
   return (
     <List selectedItemId={selectedProgram.toString()} navigationTitle={channel.name}>
@@ -46,7 +46,7 @@ const Program = ({ channel, program, index }: { channel: ChannelSchedule; progra
       key={index}
       id={index.toString()}
       title={`${getTime(program.startTime)} - ${program.title}`}
-      icon={program.live ? Icon.Livestream : ""}
+      icon={program.isCurrentlyLive ? Icon.Livestream : ""}
       actions={<Actions />}
     />
   );

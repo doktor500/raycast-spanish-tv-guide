@@ -1,5 +1,5 @@
 export type Program = {
-  live: boolean;
+  isCurrentlyLive: boolean;
   startTime: Date;
   title: string;
   url: string;

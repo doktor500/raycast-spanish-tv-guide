@@ -25,7 +25,7 @@ const Program = ({ program }: { program: Program }) => {
     <Fragment>
       <Item.Detail.Metadata.Label
         title={program.title}
-        icon={program.live ? Icon.Livestream : ""}
+        icon={program.isCurrentlyLive ? Icon.Livestream : ""}
         text={{ value: getTime(program.startTime), color: Color.SecondaryText }}
       />
       <Item.Detail.Metadata.Separator />
