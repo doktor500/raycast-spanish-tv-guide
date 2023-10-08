@@ -1,9 +1,12 @@
 import React from "react";
-import { Icon, List } from "@raycast/api";
+import { Action, ActionPanel, Icon, List, useNavigation } from "@raycast/api";
 
 import { ChannelSchedule, Program } from "../modules/tv/domain/tvSchedule";
 import { getTime } from "../utils/dateUtils";
 import { iconPath } from "../utils/iconUtils";
+import { SelectedProgram } from "./SelectedProgram";
+
+const SELECT_PROGRAM_ACTION = "Select Program";
 
 export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
   const currentProgram = channel.schedule.findIndex((program) => program.live);
@@ -18,20 +21,33 @@ export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
       </List.Section>
       <List.Section key={`schedule-${channel.name}`}>
         {schedule.map((program, index) => (
-          <Program key={index} program={program} index={index} />
+          <Program key={index} channel={channel} program={program} index={index} />
         ))}
       </List.Section>
     </List>
   );
 };
 
-const Program = ({ program, index }: { program: Program; index: number }) => {
+const Program = ({ channel, program, index }: { channel: ChannelSchedule; program: Program; index: number }) => {
+  const { push } = useNavigation();
+
+  const Actions = () => (
+    <ActionPanel>
+      <Action
+        title={SELECT_PROGRAM_ACTION}
+        icon={iconPath(channel.icon)}
+        onAction={() => push(<SelectedProgram channel={channel} program={program} />)}
+      />
+    </ActionPanel>
+  );
+
   return (
     <List.Item
       key={index}
       id={index.toString()}
-      title={`${getTime(program.startTime)} - ${program.description}`}
+      title={`${getTime(program.startTime)} - ${program.title}`}
       icon={program.live ? Icon.Livestream : ""}
+      actions={<Actions />}
     />
   );
 };

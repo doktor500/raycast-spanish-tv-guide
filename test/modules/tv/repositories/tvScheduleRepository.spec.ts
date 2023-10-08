@@ -11,7 +11,7 @@ describe("tv schedule repository", () => {
         expect(channels[0].icon).toEqual("https://www.movistarplus.es/recorte/m-NEO/canal/TVE.png");
 
         expect(programs[0]).toHaveProperty("startTime");
-        expect(programs[0]).toHaveProperty("description");
+        expect(programs[0]).toHaveProperty("title");
         expect(programs.filter(program => program.live)).toHaveLength(1);
     });
 });
