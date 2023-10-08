@@ -15,7 +15,6 @@ export type State = {
   error?: Error;
 };
 
-
 const initialState: State = { tvSchedule: [], isShowingDetail: false, iconsLoaded: false };
 const reducer = (state: State, newState: Partial<State>) => ({ ...state, ...newState });
 
