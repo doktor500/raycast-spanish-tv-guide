@@ -1,8 +1,15 @@
 export type Program = {
-  isCurrentlyLive: boolean;
-  startTime: Date;
   title: string;
+  startTime: Date;
+  isCurrentlyLive: boolean;
   url: string;
+};
+
+export type ProgramDetails = {
+  title: string;
+  startTime: Date;
+  image: string;
+  description: string;
 };
 
 export type ChannelSchedule = {

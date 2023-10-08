@@ -14,4 +14,16 @@ describe("tv schedule repository", () => {
         expect(programs[0]).toHaveProperty("title");
         expect(programs.filter(program => program.isCurrentlyLive)).toHaveLength(1);
     });
+
+    it("returns program details", async () => {
+        const channels = await tvScheduleRepository.getAll();
+        const program = channels[0].schedule[0];
+
+        const programDetails = await tvScheduleRepository.getProgramDetails(program);
+
+        expect(programDetails).toHaveProperty("title");
+        expect(programDetails).toHaveProperty("startTime");
+        expect(programDetails).toHaveProperty("image");
+        expect(programDetails).toHaveProperty("description");
+    });
 });

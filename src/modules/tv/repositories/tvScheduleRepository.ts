@@ -1,10 +1,11 @@
 import fetch from "isomorphic-fetch";
+import { parse } from "node-html-parser";
 
-import { ChannelSchedule, Program, TVSchedule } from "../domain/tvSchedule";
-import { now, parseTime, plusOneDay } from "../../../utils/dateUtils";
-import { truncate } from "../../../utils/stringUtils";
+import { ChannelSchedule, Program, ProgramDetails, TVSchedule } from "../domain/tvSchedule";
 import { ProgramResponse } from "./dto/programResponse";
 import { ChannelResponse } from "./dto/channelResponse";
+import { now, parseTime, plusOneDay } from "../../../utils/dateUtils";
+import { toString, truncate } from "../../../utils/stringUtils";
 import { findLast, last, replace } from "../../../utils/collectionUtils";
 import { Maybe } from "../../../utils/objectUtils";
 
@@ -19,6 +20,17 @@ const getAll = async (): Promise<TVSchedule> => {
     .then((channels: ChannelResponse[]) => channels.map(mapToChannel))
     .then((channelSchedules: ChannelSchedule[]) => channelSchedules.map(channelScheduleWithLiveProgram));
 };
+
+const getProgramDetails = async (program: Program): Promise<ProgramDetails> => {
+  return fetch(program.url)
+      .then((response: { text: () => Promise<string> }) => response.text())
+      .then((html: string) => {
+        const document = parse(html);
+        const image = document.querySelector("div.cover > img")?.getAttribute("src");
+        const description = document.querySelector("div.show-content > div")?.innerText?.trim();
+        return { ...program, image: toString(image), description: toString(description) };
+      });
+}
 
 const mapToChannel = (channel: ChannelResponse): ChannelSchedule => {
   return {
@@ -54,4 +66,4 @@ const scheduleWithLiveProgram = (programs: Program[], currentProgram: Program): 
     .with({ ...currentProgram, isCurrentlyLive: true });
 };
 
-export const tvScheduleRepository = { getAll };
+export const tvScheduleRepository = { getAll, getProgramDetails };
