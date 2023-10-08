@@ -3,7 +3,8 @@ import { Icon, List } from "@raycast/api";
 
 import { ChannelSchedule, Program } from "../modules/tv/domain/tvSchedule";
 import { getTime } from "../utils/dateUtils";
-import { iconPath } from "../index";
+
+import { iconPath } from "../utils/iconUtils";
 
 export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
   const selectedProgram = channel.schedule.findIndex((program) => program.live);
