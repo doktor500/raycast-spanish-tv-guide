@@ -6,7 +6,10 @@ import { getTime } from "../utils/dateUtils";
 import { iconPath } from "../utils/iconUtils";
 
 export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
-  const selectedProgram = channel.schedule.findIndex((program) => program.live);
+  const currentProgram = channel.schedule.findIndex((program) => program.live);
+  const previousProgram = Math.max(0, currentProgram - 2);
+  const schedule = channel.schedule.slice(previousProgram, channel.schedule.length);
+  const selectedProgram = schedule.findIndex((program) => program.live);
 
   return (
     <List selectedItemId={selectedProgram.toString()} navigationTitle={channel.name}>
@@ -14,7 +17,7 @@ export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
         <List.Item key={channel.name} title={`${channel.name}`} icon={iconPath(channel.icon)} />
       </List.Section>
       <List.Section key={`schedule-${channel.name}`}>
-        {channel.schedule.map((program, index) => (
+        {schedule.map((program, index) => (
           <Program key={index} program={program} index={index} />
         ))}
       </List.Section>
