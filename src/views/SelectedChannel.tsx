@@ -8,9 +8,9 @@ export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
   const selectedProgram = channel.schedule.findIndex((program) => program.live);
 
   return (
-    <List selectedItemId={selectedProgram.toString()}>
-      <List.Section>
-        <List.Item title={`${channel.name}`} icon={iconPath(channel.icon)} />
+    <List selectedItemId={selectedProgram.toString()} navigationTitle={channel.name} >
+      <List.Section key={`section-${channel.name}`}>
+        <List.Item key={channel.name} title={`${channel.name}`} icon={iconPath(channel.icon)} />
       </List.Section>
       {channel.schedule.map((program, index) => renderProgram(program, index))}
     </List>
