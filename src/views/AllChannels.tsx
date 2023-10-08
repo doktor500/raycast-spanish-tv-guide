@@ -7,9 +7,11 @@ import { ChannelSchedule } from "../modules/tv/domain/tvSchedule";
 import ChannelDetails from "../components/ChannelDetails";
 import { SelectedChannel } from "./SelectedChannel";
 
+const SELECT_CHANNEL_ACTION = "Select Channel";
+
 export const AllChannels = ({ state, setState }: { state: State; setState: React.Dispatch<Partial<State>> }) => {
-  const SELECT_CHANNEL_ACTION = "Select Channel";
-  const { tvSchedule, isShowingDetail, iconsLoaded, hoveredChannel } = state;
+  const { tvSchedule, iconsLoaded, hoveredChannel } = state;
+  const isLoading = isEmpty(tvSchedule) || !iconsLoaded;
 
   const selectChannel = (channel: string | null) => {
     const selectedChannel = !isNull(channel);
@@ -17,38 +19,38 @@ export const AllChannels = ({ state, setState }: { state: State; setState: React
     setState({ isShowingDetail: selectedChannel });
   };
 
-  const renderChannel = ({ icon, name, schedule }: ChannelSchedule) => {
-    const { push } = useNavigation();
-    const detail = <ChannelDetails name={name} schedule={schedule} icon={icon} />;
-    const selectedChannel = tvSchedule.find((channel) => channel.name === name);
+  return (
+    <List selectedItemId={hoveredChannel} isLoading={isLoading} onSelectionChange={selectChannel} {...state}>
+      {tvSchedule.map((schedule) => (
+        <Channel key={schedule.name} state={state} channelSchedule={schedule} />
+      ))}
+    </List>
+  );
+};
 
-    return (
-      <List.Item
-        key={name}
-        title={name}
-        detail={detail}
+const Channel = ({ state, channelSchedule }: { state: State; channelSchedule: ChannelSchedule }) => {
+  const { push } = useNavigation();
+  const { tvSchedule } = state;
+  const { icon, name, schedule } = channelSchedule;
+  const selectedChannel = tvSchedule.find((channel) => channel.name === name);
+
+  const Actions = () => (
+    <ActionPanel>
+      <Action
+        title={SELECT_CHANNEL_ACTION}
         icon={iconPath(icon)}
-        actions={
-          <ActionPanel>
-            <Action
-              title={SELECT_CHANNEL_ACTION}
-              icon={iconPath(icon)}
-              onAction={() => selectedChannel && push(<SelectedChannel channel={selectedChannel} />)}
-            />
-          </ActionPanel>
-        }
+        onAction={() => selectedChannel && push(<SelectedChannel channel={selectedChannel} />)}
       />
-    );
-  };
+    </ActionPanel>
+  );
 
   return (
-    <List
-      isLoading={isEmpty(tvSchedule) || !iconsLoaded}
-      selectedItemId={hoveredChannel}
-      isShowingDetail={isShowingDetail}
-      onSelectionChange={selectChannel}
-    >
-      {tvSchedule.map(renderChannel)}
-    </List>
+    <List.Item
+      key={name}
+      title={name}
+      icon={iconPath(icon)}
+      detail={<ChannelDetails name={name} schedule={schedule} icon={icon} />}
+      actions={<Actions />}
+    />
   );
 };
