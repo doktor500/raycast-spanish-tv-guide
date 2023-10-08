@@ -9,27 +9,29 @@ import { generateIcon } from "./utils/iconUtils";
 
 export type State = {
   tvSchedule: TVSchedule;
-  hoveredChannel?: string;
-  isShowingDetail: boolean;
-  iconsLoaded: boolean;
+  selectedChannel?: string;
   error?: Error;
 };
 
-const initialState: State = { tvSchedule: [], isShowingDetail: false, iconsLoaded: false };
+const initialState: State = { tvSchedule: [] };
 const reducer = (state: State, newState: Partial<State>) => ({ ...state, ...newState });
 
 const Command = () => {
   const [state, setState] = useReducer(reducer, initialState);
-  const { tvSchedule, error } = state;
-  const initialize = () => tvScheduleRepository.getAll().then((tvSchedule) => setState({ tvSchedule }));
 
-  useEffect(() => void initialize().catch((error) => setState({ error })), []);
-  useEffect(() => void generateIcons(tvSchedule).then(() => setState({ iconsLoaded: true })), [tvSchedule]);
-  useEffect(() => error && void showToast({ style: Toast.Style.Failure, title: ERROR_MESSAGE }), [error]);
+  const initialize = async () => {
+    return tvScheduleRepository
+      .getAll()
+      .then((tvSchedule) => cacheIcons(tvSchedule).then(() => setState({ tvSchedule })))
+      .catch((error) => setState({ error }));
+  };
 
-  return error ? <ErrorMessage /> : <ChannelList state={state} setState={setState} />;
+  useEffect(() => void initialize(), []);
+  useEffect(() => state.error && void showToast({ style: Toast.Style.Failure, title: ERROR_MESSAGE }), [state.error]);
+
+  return state.error ? <ErrorMessage /> : <ChannelList state={state} setState={setState} />;
 };
 
-const generateIcons = (tvSchedule: TVSchedule) => Promise.all(tvSchedule.map(({ icon }) => generateIcon(icon)));
+const cacheIcons = (tvSchedule: TVSchedule) => Promise.all(tvSchedule.map(({ icon }) => generateIcon(icon)));
 
 export default Command;

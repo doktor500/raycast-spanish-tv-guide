@@ -11,17 +11,20 @@ import { isEmpty, isNull } from "../utils/objectUtils";
 const SELECT_CHANNEL_ACTION = "Select Channel";
 
 export const ChannelList = ({ state, setState }: { state: State; setState: React.Dispatch<Partial<State>> }) => {
-  const { tvSchedule, iconsLoaded, hoveredChannel } = state;
-  const isLoading = isEmpty(tvSchedule) || !iconsLoaded;
+  const { tvSchedule, selectedChannel } = state;
 
   const selectChannel = (channel: string | null) => {
     const selectedChannel = !isNull(channel);
-    if (selectedChannel) setState({ hoveredChannel: channel });
-    setState({ isShowingDetail: selectedChannel });
+    if (selectedChannel) setState({ selectedChannel: channel });
   };
 
   return (
-    <List selectedItemId={hoveredChannel} isLoading={isLoading} onSelectionChange={selectChannel} {...state}>
+    <List
+      selectedItemId={selectedChannel}
+      isLoading={isEmpty(tvSchedule)}
+      onSelectionChange={selectChannel}
+      isShowingDetail={Boolean(state.selectedChannel)}
+    >
       {tvSchedule.map((schedule) => (
         <Channel key={schedule.name} state={state} channelSchedule={schedule} />
       ))}
@@ -48,6 +51,7 @@ const Channel = ({ state, channelSchedule }: { state: State; channelSchedule: Ch
   return (
     <List.Item
       key={name}
+      id={name.replace(/\s/g, "-")}
       title={name}
       icon={iconPath(icon)}
       detail={<ChannelDetails name={name} schedule={schedule} icon={icon} />}
