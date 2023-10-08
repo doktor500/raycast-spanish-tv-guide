@@ -1,8 +1,9 @@
 import React from "react";
+import { Action, ActionPanel, List, useNavigation } from "@raycast/api";
+
+import { iconPath, State } from "../index";
 import { isEmpty, isNull } from "../utils/objectUtils";
 import { ChannelSchedule } from "../modules/tv/domain/tvSchedule";
-import { Action, ActionPanel, List, useNavigation } from "@raycast/api";
-import { iconPath, State } from "../index";
 import ChannelDetails from "../components/ChannelDetails";
 import { SelectedChannel } from "./SelectedChannel";
 
@@ -29,9 +30,11 @@ export const AllChannels = ({ state, setState }: { state: State; setState: React
         icon={iconPath(icon)}
         actions={
           <ActionPanel>
-            <Action title={SELECT_CHANNEL_ACTION} icon={iconPath(icon)} onAction={() => {
-              if (selectedChannel) push(<SelectedChannel channel={selectedChannel} />)
-            }} />
+            <Action
+              title={SELECT_CHANNEL_ACTION}
+              icon={iconPath(icon)}
+              onAction={() => selectedChannel && push(<SelectedChannel channel={selectedChannel} />)}
+            />
           </ActionPanel>
         }
       />
