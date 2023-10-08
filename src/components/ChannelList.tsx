@@ -2,7 +2,7 @@ import React from "react";
 import { Action, ActionPanel, List, useNavigation } from "@raycast/api";
 
 import { State } from "../index";
-import { ChannelSchedule } from "../modules/tv/domain/tvSchedule";
+import { ChannelSchedule, TVSchedule } from "../modules/tv/domain/tvSchedule";
 import { ChannelDetails } from "./ChannelDetails";
 import { SelectedChannel } from "./SelectedChannel";
 import { iconPath } from "../utils/iconUtils";
@@ -27,15 +27,14 @@ export const ChannelList = ({ state, setState }: { state: State; setState: React
       isShowingDetail={Boolean(state.selectedChannel)}
     >
       {tvSchedule.map((schedule) => (
-        <Channel key={schedule.name} state={state} channelSchedule={schedule} />
+        <Channel key={schedule.name} tvSchedule={state.tvSchedule} channelSchedule={schedule} />
       ))}
     </List>
   );
 };
 
-const Channel = ({ state, channelSchedule }: { state: State; channelSchedule: ChannelSchedule }) => {
+const Channel = ({ tvSchedule, channelSchedule }: { tvSchedule: TVSchedule; channelSchedule: ChannelSchedule }) => {
   const { push } = useNavigation();
-  const { tvSchedule } = state;
   const { icon, name, schedule } = channelSchedule;
   const selectedChannel = tvSchedule.find((channel) => channel.name === name);
 
