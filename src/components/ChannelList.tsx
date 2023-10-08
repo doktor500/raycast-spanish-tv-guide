@@ -7,6 +7,7 @@ import { ChannelDetails } from "./ChannelDetails";
 import { SelectedChannel } from "./SelectedChannel";
 import { iconPath } from "../utils/iconUtils";
 import { isEmpty, isNull } from "../utils/objectUtils";
+import { toId } from "../utils/stringUtils";
 
 const SELECT_CHANNEL_ACTION = "Select Channel";
 
@@ -51,7 +52,7 @@ const Channel = ({ state, channelSchedule }: { state: State; channelSchedule: Ch
   return (
     <List.Item
       key={name}
-      id={name.replace(/\s/g, "-")}
+      id={toId(name)}
       title={name}
       icon={iconPath(icon)}
       detail={<ChannelDetails name={name} schedule={schedule} icon={icon} />}
