@@ -4,7 +4,7 @@
 - Display if a program is live
 - Fix timezone issues
 - Keep user selected program when navigating back
-- Always display to to date channel schedule
+- Always display up to date channel schedule
 - Improve program details layout
 
 ## [Live stream icon & error handling] - 2023-10-03
