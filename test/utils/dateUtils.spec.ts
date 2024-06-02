@@ -3,7 +3,7 @@ import { getTime, parseTime } from "../../src/utils/dateUtils";
 process.env.TZ = "UTC";
 
 describe("date utils", () => {
-    beforeEach(() => jest.useFakeTimers().setSystemTime(new Date("2023-01-01")));
+    beforeEach(() => jest.useFakeTimers().setSystemTime(new Date("2023-01-01:12:00")));
 
     it("returns date's hours and minutes", () => {
         expect(getTime(new Date("2023-01-29T16:40:45.280Z"))).toEqual("17:40");
