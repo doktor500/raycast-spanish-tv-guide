@@ -1,7 +1,7 @@
 import fetch from "isomorphic-fetch";
 import { parse } from "node-html-parser";
 
-import { ChannelScheduleDto, ProgramDto, ProgramDetailsDto, TVScheduleDto } from "../domain/TVScheduleDto";
+import { ChannelScheduleDto, ProgramDto, ProgramDetailsDto, TvScheduleDto } from "../domain/tvScheduleDto";
 import { ProgramResponse } from "./dto/programResponse";
 import { ChannelResponse } from "./dto/channelResponse";
 import { now, parseTime, plusOneDay } from "../../../utils/dateUtils";
@@ -15,7 +15,7 @@ const ICON_EXTENSION = "png";
 
 type Response = { data: object };
 
-const getAll = async (): Promise<TVScheduleDto> => {
+const getAll = async (): Promise<TvScheduleDto> => {
   return fetch(TV_GUIDE_URL, { headers: { Accept: "application/json" } })
     .then((response) => response.json() as unknown as Response)
     .then((response: Response) => Object.values(response.data))

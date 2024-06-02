@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Detail } from "@raycast/api";
 
 import { tvScheduleRepository } from "../modules/tv/repositories/tvScheduleRepository";
-import { ChannelScheduleDto, ProgramDto, ProgramDetailsDto } from "../modules/tv/domain/TVScheduleDto";
+import { ChannelScheduleDto, ProgramDto, ProgramDetailsDto } from "../modules/tv/domain/tvScheduleDto";
 import { getTime } from "../utils/dateUtils";
 import { Maybe } from "../utils/objectUtils";
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Action, ActionPanel, Icon, List, useNavigation } from "@raycast/api";
 
-import { ChannelScheduleDto, ProgramDto } from "../modules/tv/domain/TVScheduleDto";
+import { ChannelScheduleDto, ProgramDto } from "../modules/tv/domain/tvScheduleDto";
 import { getTime } from "../utils/dateUtils";
 import { iconPath } from "../utils/iconUtils";
 import { SelectedProgram } from "./SelectedProgram";

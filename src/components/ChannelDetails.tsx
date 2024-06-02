@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Color, Icon, List } from "@raycast/api";
 
-import { ChannelScheduleDto, ProgramDto } from "../modules/tv/domain/TVScheduleDto";
+import { ChannelScheduleDto, ProgramDto } from "../modules/tv/domain/tvScheduleDto";
 import { getTime } from "../utils/dateUtils";
 
 const { Item } = List;

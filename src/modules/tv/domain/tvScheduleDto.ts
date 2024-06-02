@@ -19,4 +19,4 @@ export type ProgramDetailsDto = {
   description: string;
 };
 
-export type TVScheduleDto = ChannelScheduleDto[];
+export type TvScheduleDto = ChannelScheduleDto[];
