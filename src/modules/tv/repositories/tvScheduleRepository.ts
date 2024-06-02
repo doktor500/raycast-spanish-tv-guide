@@ -13,10 +13,12 @@ const TV_GUIDE_URL = "https://www.movistarplus.es/programacion-tv?v=json";
 const ICON_URL = "https://www.movistarplus.es/recorte/m-NEO/canal";
 const ICON_EXTENSION = "png";
 
+type Response = { data: object };
+
 const getAll = async (): Promise<TVSchedule> => {
   return fetch(TV_GUIDE_URL, { headers: { Accept: "application/json" } })
-    .then((response: { json: () => Promise<object> }) => response.json())
-    .then((response: { data: object }) => Object.values(response.data))
+    .then((response) => response.json() as unknown as Response)
+    .then((response: Response) => Object.values(response.data))
     .then((channels: ChannelResponse[]) => channels.map(mapToChannel))
     .then((channelSchedules: ChannelSchedule[]) => channelSchedules.map(channelScheduleWithLiveProgram));
 };
