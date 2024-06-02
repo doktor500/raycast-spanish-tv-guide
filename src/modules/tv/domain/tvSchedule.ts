@@ -1,3 +1,9 @@
+export type ChannelSchedule = {
+  icon: string;
+  name: string;
+  schedule: Program[];
+};
+
 export type Program = {
   title: string;
   startTime: Date;
@@ -10,12 +16,6 @@ export type ProgramDetails = {
   startTime: Date;
   image: string;
   description: string;
-};
-
-export type ChannelSchedule = {
-  icon: string;
-  name: string;
-  schedule: Program[];
 };
 
 export type TVSchedule = ChannelSchedule[];
