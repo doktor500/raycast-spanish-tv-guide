@@ -48,10 +48,11 @@ const mapToSchedule = (programs: ProgramResponse[]) => {
 };
 
 const mapToProgram = (program: ProgramResponse, lastProgram: Maybe<Program>): Program => {
+  const isLive = program.DIRECTO;
   const startTime = parseTime(program.HORA_INICIO);
   const fixedTime = lastProgram?.startTime && lastProgram.startTime > startTime ? plusOneDay(startTime) : startTime;
 
-  return { isCurrentlyLive: false, startTime: fixedTime, url: program.URL, title: truncate(program.TITULO) };
+  return { isLive, isCurrentlyLive: false, startTime: fixedTime, url: program.URL, title: truncate(program.TITULO) };
 };
 
 const channelScheduleWithLiveProgram = ({ schedule, icon, name }: ChannelSchedule): ChannelSchedule => {

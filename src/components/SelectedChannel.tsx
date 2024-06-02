@@ -53,7 +53,8 @@ const Program = ({ channel, program, index, onSelect: setSelectedProgramIndex }:
       key={index}
       id={index.toString()}
       title={`${getTime(program.startTime)} - ${program.title}`}
-      icon={program.isCurrentlyLive ? Icon.Livestream : ""}
+      icon={program.isCurrentlyLive ? Icon.Clock : ""}
+      accessories={[{ icon: program.isLive ? Icon.Livestream : "" }]}
       actions={<Actions />}
     />
   );

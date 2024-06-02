@@ -8,6 +8,7 @@ export type Program = {
   title: string;
   startTime: Date;
   isCurrentlyLive: boolean;
+  isLive: boolean;
   url: string;
 };
 
