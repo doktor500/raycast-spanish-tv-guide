@@ -2,7 +2,7 @@ import React from "react";
 import { Action, ActionPanel, List, useNavigation } from "@raycast/api";
 
 import { State } from "../index";
-import { ChannelScheduleDto, TvScheduleDto } from "../modules/tv/domain/tvScheduleDto";
+import { ChannelScheduleDto, TvScheduleDto, upToDateChannelSchedule } from "../modules/tv/domain/tvScheduleDto";
 import { ChannelDetails } from "./ChannelDetails";
 import { SelectedChannel } from "./SelectedChannel";
 import { iconPath } from "../utils/iconUtils";
@@ -54,7 +54,7 @@ const Channel = ({ tvSchedule, channelSchedule }: { tvSchedule: TvScheduleDto; c
       id={toId(name)}
       title={name}
       icon={iconPath(icon)}
-      detail={<ChannelDetails name={name} schedule={schedule} icon={icon} />}
+      detail={<ChannelDetails name={name} schedule={upToDateChannelSchedule(schedule)} icon={icon} />}
       actions={<Actions />}
     />
   );

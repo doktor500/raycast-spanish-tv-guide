@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Action, ActionPanel, Icon, List, useNavigation } from "@raycast/api";
 
-import { ChannelScheduleDto, ProgramDto } from "../modules/tv/domain/tvScheduleDto";
+import { ChannelScheduleDto, ProgramDto, upToDateChannelSchedule } from "../modules/tv/domain/tvScheduleDto";
 import { getTime } from "../utils/dateUtils";
 import { iconPath } from "../utils/iconUtils";
 import { SelectedProgram } from "./SelectedProgram";
@@ -9,9 +9,7 @@ import { SelectedProgram } from "./SelectedProgram";
 const SELECT_PROGRAM_ACTION = "Select Program";
 
 export const SelectedChannel = ({ channel }: { channel: ChannelScheduleDto }) => {
-  const currentProgram = channel.schedule.findIndex((program) => program.isCurrentlyLive);
-  const previousProgram = Math.max(0, currentProgram - 2);
-  const schedule = channel.schedule.slice(previousProgram, channel.schedule.length);
+  const schedule = upToDateChannelSchedule(channel.schedule);
   const currentLiveProgram = schedule.findIndex((program) => program.isCurrentlyLive);
   const [selectedProgramIndex, setSelectedProgramIndex] = useState<number>(currentLiveProgram);
 
