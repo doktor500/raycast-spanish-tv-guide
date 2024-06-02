@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Action, ActionPanel, Icon, List, useNavigation } from "@raycast/api";
 
-import { ChannelSchedule, Program, ProgramDetails } from "../modules/tv/domain/tvSchedule";
+import { ChannelSchedule, Program } from "../modules/tv/domain/tvSchedule";
 import { getTime } from "../utils/dateUtils";
 import { iconPath } from "../utils/iconUtils";
 import { SelectedProgram } from "./SelectedProgram";
-import { Maybe } from "../utils/objectUtils";
 
 const SELECT_PROGRAM_ACTION = "Select Program";
 
