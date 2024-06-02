@@ -15,6 +15,7 @@ export const SelectedProgram = ({ channel, program }: { channel: ChannelSchedule
     programDetails && (
       <Detail navigationTitle={channel.name}
         markdown={formattedProgramDetails(programDetails)}
+        isLoading={!programDetails}
         metadata={
           <Detail.Metadata>
             <Detail.Metadata.Label title={channel.name} icon={channel.icon} />
@@ -28,8 +29,10 @@ export const SelectedProgram = ({ channel, program }: { channel: ChannelSchedule
 
 const formattedProgramDetails = ({ title, startTime, image, description }: ProgramDetailsDto) => `
   ### ${getTime(startTime)} ${title}
-   
-  ![${title}](${image})
-   
+  
+  --- 
+  
   ${description}
+  
+  ![${title}](${image}?raycast-width=125&raycast-height=188)
   `;
