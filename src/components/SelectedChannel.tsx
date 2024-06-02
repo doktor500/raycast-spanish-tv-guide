@@ -6,6 +6,13 @@ import { getTime } from "../utils/dateUtils";
 import { iconPath } from "../utils/iconUtils";
 import { SelectedProgram } from "./SelectedProgram";
 
+type ProgramProps = {
+  channel: ChannelScheduleDto;
+  program: ProgramDto;
+  index: number,
+  onSelect: (index: number) => void
+};
+
 const SELECT_PROGRAM_ACTION = "Select Program";
 
 export const SelectedChannel = ({ channel }: { channel: ChannelScheduleDto }) => {
@@ -26,8 +33,6 @@ export const SelectedChannel = ({ channel }: { channel: ChannelScheduleDto }) =>
     </List>
   );
 };
-
-type ProgramProps = { channel: ChannelScheduleDto; program: ProgramDto; index: number, onSelect: (index: number) => void };
 
 const Program = ({ channel, program, index, onSelect: setSelectedProgramIndex }: ProgramProps) => {
   const { push } = useNavigation();
