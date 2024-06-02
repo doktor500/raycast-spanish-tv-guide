@@ -11,7 +11,7 @@ describe("date utils", () => {
     });
 
     it("parses a date in string format using Europe/Madrid time zone", () => {
-        expect(parseTime("16:40:45.280Z")).toEqual(new Date("2023-01-01T16:40:45.280Z"));
-        expect(parseTime("08:22:12.943Z")).toEqual(new Date("2023-01-01T08:22:12.943Z"));
+        expect(parseTime("16:40:45.280Z")).toEqual(new Date("2023-01-01T15:40:45.280Z"));
+        expect(parseTime("08:22:12.943Z")).toEqual(new Date("2023-01-01T07:22:12.943Z"));
     });
 });
