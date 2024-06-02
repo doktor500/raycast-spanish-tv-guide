@@ -1,12 +1,12 @@
 import { Fragment } from "react";
 import { Color, Icon, List } from "@raycast/api";
 
-import { ChannelSchedule, Program } from "../modules/tv/domain/tvSchedule";
+import { ChannelScheduleDto, ProgramDto } from "../modules/tv/domain/TVScheduleDto";
 import { getTime } from "../utils/dateUtils";
 
 const { Item } = List;
 
-export const ChannelDetails = (channel: ChannelSchedule) => (
+export const ChannelDetails = (channel: ChannelScheduleDto) => (
   <Item.Detail
     metadata={
       <Item.Detail.Metadata>
@@ -20,7 +20,7 @@ export const ChannelDetails = (channel: ChannelSchedule) => (
   />
 );
 
-const Program = ({ program }: { program: Program }) => {
+const Program = ({ program }: { program: ProgramDto }) => {
   return (
     <Fragment>
       <Item.Detail.Metadata.Label

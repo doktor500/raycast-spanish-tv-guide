@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Detail } from "@raycast/api";
 
 import { tvScheduleRepository } from "../modules/tv/repositories/tvScheduleRepository";
-import { ChannelSchedule, Program, ProgramDetails } from "../modules/tv/domain/tvSchedule";
+import { ChannelScheduleDto, ProgramDto, ProgramDetailsDto } from "../modules/tv/domain/TVScheduleDto";
 import { getTime } from "../utils/dateUtils";
 import { Maybe } from "../utils/objectUtils";
 
-export const SelectedProgram = ({ channel, program }: { channel: ChannelSchedule; program: Program }) => {
-  const [programDetails, setProgramDetails] = useState<Maybe<ProgramDetails>>();
+export const SelectedProgram = ({ channel, program }: { channel: ChannelScheduleDto; program: ProgramDto }) => {
+  const [programDetails, setProgramDetails] = useState<Maybe<ProgramDetailsDto>>();
 
   useEffect(() => void tvScheduleRepository.getProgramDetails(program).then(setProgramDetails), [program]);
 
@@ -26,7 +26,7 @@ export const SelectedProgram = ({ channel, program }: { channel: ChannelSchedule
   );
 };
 
-const formattedProgramDetails = ({ title, startTime, image, description }: ProgramDetails) => `
+const formattedProgramDetails = ({ title, startTime, image, description }: ProgramDetailsDto) => `
   ### ${getTime(startTime)} ${title}
    
   ![${title}](${image})

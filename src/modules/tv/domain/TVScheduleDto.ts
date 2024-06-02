@@ -1,10 +1,10 @@
-export type ChannelSchedule = {
+export type ChannelScheduleDto = {
   icon: string;
   name: string;
-  schedule: Program[];
+  schedule: ProgramDto[];
 };
 
-export type Program = {
+export type ProgramDto = {
   title: string;
   startTime: Date;
   isCurrentlyLive: boolean;
@@ -12,11 +12,11 @@ export type Program = {
   url: string;
 };
 
-export type ProgramDetails = {
+export type ProgramDetailsDto = {
   title: string;
   startTime: Date;
   image: string;
   description: string;
 };
 
-export type TVSchedule = ChannelSchedule[];
+export type TVScheduleDto = ChannelScheduleDto[];

@@ -1,14 +1,14 @@
 import { showToast, Toast } from "@raycast/api";
 import React, { useEffect, useReducer } from "react";
 
-import { TVSchedule } from "./modules/tv/domain/tvSchedule";
+import { TVScheduleDto } from "./modules/tv/domain/TVScheduleDto";
 import { tvScheduleRepository } from "./modules/tv/repositories/tvScheduleRepository";
 import { ERROR_MESSAGE, ErrorMessage } from "./components/ErrorMessage";
 import { ChannelList } from "./components/ChannelList";
 import { generateIcon } from "./utils/iconUtils";
 
 export type State = {
-  tvSchedule: TVSchedule;
+  tvSchedule: TVScheduleDto;
   selectedChannel?: string;
   error?: Error;
 };
@@ -32,6 +32,6 @@ const Command = () => {
   return state.error ? <ErrorMessage /> : <ChannelList state={state} setState={setState} />;
 };
 
-const cacheIcons = (tvSchedule: TVSchedule) => Promise.all(tvSchedule.map(({ icon }) => generateIcon(icon)));
+const cacheIcons = (tvSchedule: TVScheduleDto) => Promise.all(tvSchedule.map(({ icon }) => generateIcon(icon)));
 
 export default Command;

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Action, ActionPanel, Icon, List, useNavigation } from "@raycast/api";
 
-import { ChannelSchedule, Program } from "../modules/tv/domain/tvSchedule";
+import { ChannelScheduleDto, ProgramDto } from "../modules/tv/domain/TVScheduleDto";
 import { getTime } from "../utils/dateUtils";
 import { iconPath } from "../utils/iconUtils";
 import { SelectedProgram } from "./SelectedProgram";
 
 const SELECT_PROGRAM_ACTION = "Select Program";
 
-export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
+export const SelectedChannel = ({ channel }: { channel: ChannelScheduleDto }) => {
   const currentProgram = channel.schedule.findIndex((program) => program.isCurrentlyLive);
   const previousProgram = Math.max(0, currentProgram - 2);
   const schedule = channel.schedule.slice(previousProgram, channel.schedule.length);
@@ -29,7 +29,7 @@ export const SelectedChannel = ({ channel }: { channel: ChannelSchedule }) => {
   );
 };
 
-type ProgramProps = { channel: ChannelSchedule; program: Program; index: number, onSelect: (index: number) => void };
+type ProgramProps = { channel: ChannelScheduleDto; program: ProgramDto; index: number, onSelect: (index: number) => void };
 
 const Program = ({ channel, program, index, onSelect: setSelectedProgramIndex }: ProgramProps) => {
   const { push } = useNavigation();

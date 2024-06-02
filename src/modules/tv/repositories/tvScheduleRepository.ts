@@ -1,7 +1,7 @@
 import fetch from "isomorphic-fetch";
 import { parse } from "node-html-parser";
 
-import { ChannelSchedule, Program, ProgramDetails, TVSchedule } from "../domain/tvSchedule";
+import { ChannelScheduleDto, ProgramDto, ProgramDetailsDto, TVScheduleDto } from "../domain/TVScheduleDto";
 import { ProgramResponse } from "./dto/programResponse";
 import { ChannelResponse } from "./dto/channelResponse";
 import { now, parseTime, plusOneDay } from "../../../utils/dateUtils";
@@ -15,15 +15,15 @@ const ICON_EXTENSION = "png";
 
 type Response = { data: object };
 
-const getAll = async (): Promise<TVSchedule> => {
+const getAll = async (): Promise<TVScheduleDto> => {
   return fetch(TV_GUIDE_URL, { headers: { Accept: "application/json" } })
     .then((response) => response.json() as unknown as Response)
     .then((response: Response) => Object.values(response.data))
     .then((channels: ChannelResponse[]) => channels.map(mapToChannel))
-    .then((channelSchedules: ChannelSchedule[]) => channelSchedules.map(channelScheduleWithLiveProgram));
+    .then((channelSchedules: ChannelScheduleDto[]) => channelSchedules.map(channelScheduleWithLiveProgram));
 };
 
-const getProgramDetails = async (program: Program): Promise<ProgramDetails> => {
+const getProgramDetails = async (program: ProgramDto): Promise<ProgramDetailsDto> => {
   return fetch(program.url)
       .then((response: { text: () => Promise<string> }) => response.text())
       .then((html: string) => {
@@ -34,7 +34,7 @@ const getProgramDetails = async (program: Program): Promise<ProgramDetails> => {
       });
 }
 
-const mapToChannel = (channel: ChannelResponse): ChannelSchedule => {
+const mapToChannel = (channel: ChannelResponse): ChannelScheduleDto => {
   return {
     icon: `${ICON_URL}/${channel.DATOS_CADENA.CODIGO}.${ICON_EXTENSION}`,
     name: channel.DATOS_CADENA.NOMBRE,
@@ -43,13 +43,13 @@ const mapToChannel = (channel: ChannelResponse): ChannelSchedule => {
 };
 
 const mapToSchedule = (programs: ProgramResponse[]) => {
-  return programs.reduce((programs: Program[], program: ProgramResponse) => {
+  return programs.reduce((programs: ProgramDto[], program: ProgramResponse) => {
     const currentProgram = mapToProgram(program, last(programs));
     return [...programs, currentProgram];
   }, []);
 };
 
-const mapToProgram = (program: ProgramResponse, lastProgram: Maybe<Program>): Program => {
+const mapToProgram = (program: ProgramResponse, lastProgram: Maybe<ProgramDto>): ProgramDto => {
   const isLive = program.DIRECTO;
   const startTime = parseTime(program.HORA_INICIO);
   const fixedTime = lastProgram?.startTime && lastProgram.startTime > startTime ? plusOneDay(startTime) : startTime;
@@ -57,13 +57,13 @@ const mapToProgram = (program: ProgramResponse, lastProgram: Maybe<Program>): Pr
   return { isLive, isCurrentlyLive: false, startTime: fixedTime, url: program.URL, title: truncate(program.TITULO) };
 };
 
-const channelScheduleWithLiveProgram = ({ schedule, icon, name }: ChannelSchedule): ChannelSchedule => {
+const channelScheduleWithLiveProgram = ({ schedule, icon, name }: ChannelScheduleDto): ChannelScheduleDto => {
   const currentProgram = findLast(schedule, (program) => program.startTime < now());
   const programs = currentProgram ? scheduleWithLiveProgram(schedule, currentProgram) : schedule;
   return { icon, name, schedule: programs };
 };
 
-const scheduleWithLiveProgram = (programs: Program[], currentProgram: Program): Program[] => {
+const scheduleWithLiveProgram = (programs: ProgramDto[], currentProgram: ProgramDto): ProgramDto[] => {
   return replace(currentProgram)
     .in(programs)
     .with({ ...currentProgram, isCurrentlyLive: true });
