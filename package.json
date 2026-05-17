@@ -9,7 +9,6 @@
     "Media"
   ],
   "license": "MIT",
-  "type": "module",
   "commands": [
     {
       "name": "index",
@@ -32,15 +31,12 @@
     "@babel/preset-env": "^7.29.5",
     "@raycast/eslint-config": "2.1.1",
     "@types/isomorphic-fetch": "^0.0.39",
-    "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.24",
     "@types/luxon": "^3.7.1",
     "@types/node": "25.8.0",
     "@types/ramda": "^0.31.1",
     "@types/react": "19.2.14",
     "eslint": "^10.4.0",
-    "jest": "^30.4.2",
-    "jest-environment-jsdom": "^30.4.1",
     "prettier": "^3.8.3",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
@@ -50,7 +46,6 @@
     "dev": "ray develop",
     "fix-lint": "ray lint --fix",
     "lint": "ray lint",
-    "publish": "npx @raycast/api@latest publish",
-    "test": "jest"
+    "publish": "npx @raycast/api@latest publish"
   }
 }
